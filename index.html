@@ -13,10 +13,12 @@
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a href="#" class="logo">3jays</a>
+      <a href="#" class="logo" aria-label="3jays home">
+        <span class="wordmark">3jays</span>
+      </a>
       <nav class="nav" aria-label="Primary">
         <a href="#method">Method</a>
-        <a href="#delivery">Delivery</a>
+        <a href="#products">Products</a>
         <a href="#training">Training</a>
         <a href="#contact">Get in touch</a>
       </nav>
@@ -24,10 +26,31 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero scroll-reveal scroll-reveal--on-load">
+      <div class="hero-lines" aria-hidden="true">
+        <svg class="hero-lines-svg" viewBox="0 0 360 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="hero-lines-fill" d="M 88 500 L 88 380 L 168 380 L 168 280 L 248 280 L 248 80 L 300 40 L 340 40" />
+          <path class="hero-line hero-line--purple" d="M 48 510 L 48 400 L 128 400 L 128 300 L 208 300 L 208 140" />
+          <circle class="hero-node hero-node--purple" cx="48" cy="510" r="4" />
+          <circle class="hero-node hero-node--purple" cx="128" cy="400" r="3" />
+          <circle class="hero-node hero-node--purple" cx="208" cy="300" r="3" />
+          <path class="hero-line hero-line--purple" d="M 108 490 L 108 360 L 188 360 L 188 260 L 268 260 L 268 100" />
+          <circle class="hero-node hero-node--purple" cx="108" cy="490" r="3" />
+          <circle class="hero-node hero-node--purple" cx="188" cy="360" r="3" />
+          <path class="hero-line hero-line--orange" d="M 68 520 L 68 420 L 148 420 L 148 320 L 228 320 L 228 60" />
+          <circle class="hero-node hero-node--orange" cx="68" cy="520" r="4" />
+          <circle class="hero-node hero-node--orange" cx="148" cy="420" r="3" />
+          <circle class="hero-node hero-node--orange" cx="228" cy="320" r="3" />
+          <path class="hero-line hero-line--orange hero-line--arrow" d="M 88 500 L 88 380 L 168 380 L 168 280 L 248 280 L 248 48" />
+          <path class="hero-line hero-line--orange" d="M 248 48 L 236 62 M 248 48 L 262 56" />
+        </svg>
+      </div>
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">3jays · AI platforms & executive readiness</p>
+          <div class="hero-brand">
+            <span class="wordmark wordmark--hero">3jays</span>
+            <p class="hero-tagline">AI platforms &amp; executive readiness</p>
+          </div>
           <h1>We build the systems. We prepare the leaders who run them.</h1>
           <p class="lead">
             Most organisations are stuck between AI ambition and operational reality — scattered pilots,
@@ -46,16 +69,28 @@
         <aside class="hero-aside" aria-hidden="true">
           <div class="hero-card">
             <span class="hero-card-label">Two tracks, one firm</span>
-            <ul>
-              <li><strong>Platform delivery</strong> — architecture, build, integration, go-live</li>
-              <li><strong>Executive training</strong> — strategy, adoption, governance, change</li>
+            <ul class="hero-tracks">
+              <li class="hero-track">
+                <span class="hero-track-marker" aria-hidden="true"></span>
+                <div>
+                  <strong class="hero-track-title">Platform delivery</strong>
+                  <span class="hero-track-desc">Architecture, build, integration, go-live</span>
+                </div>
+              </li>
+              <li class="hero-track">
+                <span class="hero-track-marker hero-track-marker--purple" aria-hidden="true"></span>
+                <div>
+                  <strong class="hero-track-title">Executive training</strong>
+                  <span class="hero-track-desc">Strategy, adoption, governance, change</span>
+                </div>
+              </li>
             </ul>
           </div>
         </aside>
       </div>
     </section>
 
-    <section id="method" class="section section-method">
+    <section id="method" class="section section-method scroll-reveal">
       <div class="container">
         <p class="section-label">The method</p>
         <h2>Four stages between AI curiosity and AI that runs the business.</h2>
@@ -96,7 +131,7 @@
       </div>
     </section>
 
-    <section class="section section-begin">
+    <section class="section section-begin scroll-reveal">
       <div class="container split">
         <div>
           <p class="section-label">How we begin</p>
@@ -128,7 +163,7 @@
       </div>
     </section>
 
-    <section id="offerings" class="section section-offerings">
+    <section id="offerings" class="section section-offerings scroll-reveal">
       <div class="container">
         <p class="section-label">Engagement models</p>
         <h2>Four ways we work, shaped by twenty years in enterprise delivery.</h2>
@@ -195,7 +230,47 @@
       </div>
     </section>
 
-    <section id="delivery" class="section section-expertise">
+    <section id="products" class="section section-products scroll-reveal">
+      <div class="container">
+        <p class="section-label">Products &amp; case studies</p>
+        <h2>Platforms we build. Training we deliver. Work you can explore.</h2>
+        <p class="section-intro">
+          Client engagements and our own products inform each other. Each tile links to a case study —
+          the problem, what we shipped, and what it proved. More use cases will be added over time.
+        </p>
+
+        <div class="products-grid">
+          <a href="case-studies/family-cfo.html" class="product-tile">
+            <div class="product-tile-media">
+              <img src="assets/products/family-cfo-dashboard.png" alt="Agentic Family CFO dashboard" loading="lazy">
+            </div>
+            <div class="product-tile-body">
+              <span class="product-tile-type product-tile-type--platform">Agentic platform</span>
+              <h3>Agentic Family CFO</h3>
+              <p>An agentic household finance platform — clarity on cash flow today, grounded advice and scenario modelling as the product matures.</p>
+              <span class="product-tile-cta">Read case study</span>
+            </div>
+          </a>
+
+          <a href="case-studies/african-telecom-strategic-agility.html" class="product-tile">
+            <div class="product-tile-media product-tile-media--training">
+              <div class="product-tile-placeholder" aria-hidden="true">
+                <span class="product-tile-placeholder-label">Executive training</span>
+                <span class="product-tile-placeholder-title">Strategic agility</span>
+              </div>
+            </div>
+            <div class="product-tile-body">
+              <span class="product-tile-type product-tile-type--training">Executive training</span>
+              <h3>African telecom &amp; fintech group</h3>
+              <p>Two-session programme — strategic agility, balanced scorecard workshop, and written feedback for engineering leadership at scale.</p>
+              <span class="product-tile-cta">Read case study</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="delivery" class="section section-expertise scroll-reveal">
       <div class="container">
         <p class="section-label">Where this comes from</p>
         <h2 class="heading-wide">Enterprise delivery experience, strategic leadership at the top.</h2>
@@ -229,7 +304,7 @@
       </div>
     </section>
 
-    <section class="section section-principles">
+    <section class="section section-principles scroll-reveal">
       <div class="container">
         <p class="section-label">How we work</p>
         <h2>Three principles that decide what we build and what we teach.</h2>
@@ -253,7 +328,7 @@
       </div>
     </section>
 
-    <section class="section section-deliver">
+    <section class="section section-deliver scroll-reveal">
       <div class="container">
         <p class="section-label">How we deliver</p>
         <h2>Senior, selective, the right shape for the work.</h2>
@@ -277,7 +352,7 @@
       </div>
     </section>
 
-    <section id="contact" class="section section-cta">
+    <section id="contact" class="section section-cta scroll-reveal">
       <div class="container cta-inner">
         <h2>Tell us where you are — and where you need to be.</h2>
         <p>
@@ -295,9 +370,12 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <span class="logo">3jays</span>
+      <a href="#" class="logo" aria-label="3jays home">
+        <span class="wordmark wordmark--footer">3jays</span>
+      </a>
       <p>&copy; 3jays · London · hello@3jays.co.uk</p>
     </div>
   </footer>
+  <script src="scroll-animations.js"></script>
 </body>
 </html>
