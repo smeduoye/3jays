@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frankstars — The Future of Your Chair</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0b0a;
+      --bg-elevated: #161412;
+      --bg-card: #1e1b18;
+      --gold: #c9a962;
+      --gold-dim: #8a7340;
+      --gold-glow: rgba(201, 169, 98, 0.15);
+      --cream: #f5f0e8;
+      --cream-muted: #a39e94;
+      --green: #5cb87a;
+      --amber: #e8b84a;
+      --red: #d46565;
+      --blue: #6ba3d4;
+      --purple: #a78bfa;
+      --slide-padding: clamp(2rem, 5vw, 4rem);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--cream);
+    }
+
+    /* Deck shell */
+    .deck {
+      height: 100vh;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--slide-padding);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .slide-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Typography */
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    h1, h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: var(--cream-muted);
+      max-width: 36rem;
+      line-height: 1.6;
+      margin-top: 1.25rem;
+    }
+
+    .gold { color: var(--gold); }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 100;
+      background: rgba(12, 11, 10, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid rgba(201, 169, 98, 0.2);
+    }
+
+    .nav button {
+      background: none;
+      border: none;
+      color: var(--cream-muted);
+      cursor: pointer;
+      font-size: 1.25rem;
+      padding: 0.25rem 0.5rem;
+      transition: color 0.2s;
+    }
+
+    .nav button:hover { color: var(--gold); }
+
+    .dots { display: flex; gap: 0.4rem; }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cream-muted);
+      opacity: 0.4;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      opacity: 1;
+      transform: scale(1.3);
+    }
+
+    .slide-counter {
+      font-size: 0.7rem;
+      color: var(--cream-muted);
+      letter-spacing: 0.1em;
+      min-width: 3rem;
+      text-align: center;
+    }
+
+    /* Hero */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .split, .mock-row { grid-template-columns: 1fr !important; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--gold-dim);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Phone mock */
+    .phone {
+      width: 280px;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 36px;
+      padding: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 60px var(--gold-glow);
+    }
+
+    .phone-screen {
+      background: var(--bg-elevated);
+      border-radius: 28px;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-notch {
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--cream-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .app-header {
+      padding: 0.75rem 1rem 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .app-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .app-header p {
+      font-size: 0.65rem;
+      color: var(--cream-muted);
+    }
+
+    .app-body { padding: 0.75rem; flex: 1; overflow: hidden; }
+
+    /* Inbox card */
+    .inbox-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 0.75rem;
+      margin-bottom: 0.6rem;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .inbox-card.highlight {
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-name { font-weight: 500; font-size: 0.85rem; }
+    .card-time { font-size: 0.6rem; color: var(--cream-muted); }
+
+    .channel {
+      font-size: 0.55rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(92, 184, 122, 0.15);
+      color: var(--green);
+    }
+
+    .channel.sms { background: rgba(107, 163, 212, 0.15); color: var(--blue); }
+
+    .raw-msg {
+      font-size: 0.7rem;
+      color: var(--cream-muted);
+      font-style: italic;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 6px;
+      margin: 0.4rem 0;
+      border-left: 2px solid var(--gold-dim);
+    }
+
+    .parsed {
+      font-size: 0.68rem;
+      line-height: 1.5;
+      color: var(--cream);
+    }
+
+    .parsed strong { color: var(--gold); font-weight: 500; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.5rem 0; }
+
+    .tag {
+      font-size: 0.55rem;
+      padding: 0.2rem 0.45rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: var(--cream-muted);
+    }
+
+    .tag.warn { background: rgba(232, 184, 74, 0.15); color: var(--amber); }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
+    }
+
+    .btn {
+      font-size: 0.6rem;
+      padding: 0.45rem;
+      border-radius: 8px;
+      border: none;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: default;
+    }
+
+    .btn-approve { background: var(--green); color: #0a1a0f; }
+    .btn-edit { background: rgba(201,169,98,0.2); color: var(--gold); border: 1px solid var(--gold-dim); }
+    .btn-reject { background: rgba(212,101,101,0.15); color: var(--red); }
+
+    /* State pill */
+    .state-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.6rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .state-pill::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .state-parsed { background: rgba(167,139,250,0.15); color: var(--purple); }
+    .state-parsed::before { background: var(--purple); }
+    .state-proposal { background: rgba(232,184,74,0.15); color: var(--amber); }
+    .state-proposal::before { background: var(--amber); }
+    .state-awaiting { background: rgba(107,163,212,0.15); color: var(--blue); }
+    .state-awaiting::before { background: var(--blue); animation: pulse 1.5s infinite; }
+    .state-confirmed { background: rgba(92,184,122,0.15); color: var(--green); }
+    .state-confirmed::before { background: var(--green); }
+    .state-floating { background: rgba(201,169,98,0.15); color: var(--gold); }
+    .state-floating::before { background: var(--gold); }
+
+    /* Chat mock */
+    .chat { display: flex; flex-direction: column; gap: 0.5rem; padding: 0.5rem 0; }
+
+    .bubble {
+      max-width: 85%;
+      padding: 0.55rem 0.7rem;
+      border-radius: 12px;
+      font-size: 0.68rem;
+      line-height: 1.45;
+    }
+
+    .bubble.in {
+      align-self: flex-start;
+      background: var(--bg-card);
+      border-bottom-left-radius: 4px;
+    }
+
+    .bubble.out {
+      align-self: flex-end;
+      background: rgba(201, 169, 98, 0.2);
+      border: 1px solid var(--gold-dim);
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble .meta {
+      font-size: 0.55rem;
+      color: var(--cream-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Calendar mock */
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      font-size: 0.55rem;
+    }
+
+    .cal-hour {
+      color: var(--cream-muted);
+      padding: 0.3rem 0;
+      text-align: right;
+      padding-right: 0.4rem;
+    }
+
+    .cal-slot {
+      background: rgba(255,255,255,0.03);
+      border-radius: 4px;
+      min-height: 28px;
+      position: relative;
+    }
+
+    .cal-block {
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      border-radius: 4px;
+      padding: 0.2rem 0.35rem;
+      font-size: 0.5rem;
+      line-height: 1.3;
+      overflow: hidden;
+    }
+
+    .cal-block.fixed {
+      background: rgba(92, 184, 122, 0.35);
+      border: 1px solid var(--green);
+      color: #d4f0dc;
+    }
+
+    .cal-block.floating {
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(201, 169, 98, 0.12),
+        rgba(201, 169, 98, 0.12) 4px,
+        rgba(201, 169, 98, 0.22) 4px,
+        rgba(201, 169, 98, 0.22) 8px
+      );
+      border: 1px dashed var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .cal-block.tentative {
+      background: transparent;
+      border: 1px dotted var(--blue);
+      color: var(--blue);
+      opacity: 0.8;
+    }
+
+    /* State machine diagram */
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 2rem 0;
+    }
+
+    .flow-node {
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-align: center;
+      min-width: 100px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: var(--bg-card);
+    }
+
+    .flow-node.active-node {
+      border-color: var(--gold);
+      box-shadow: 0 0 24px var(--gold-glow);
+    }
+
+    .flow-arrow {
+      color: var(--gold-dim);
+      font-size: 1rem;
+    }
+
+    .flow-branch {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    /* Split layouts */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .mock-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .mock-label {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--cream-muted);
+    }
+
+    .mock-label strong { color: var(--cream); display: block; margin-bottom: 0.25rem; }
+
+    /* Feature cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .features { grid-template-columns: 1fr; }
+    }
+
+    .feature {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold);
+    }
+
+    .feature p {
+      font-size: 0.85rem;
+      color: var(--cream-muted);
+      line-height: 1.55;
+    }
+
+    /* Compare */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .compare-col {
+      padding: 1.5rem;
+      border-radius: 16px;
+    }
+
+    .compare-col.before {
+      background: rgba(212, 101, 101, 0.08);
+      border: 1px solid rgba(212, 101, 101, 0.2);
+    }
+
+    .compare-col.after {
+      background: var(--gold-glow);
+      border: 1px solid var(--gold-dim);
+    }
+
+    .compare-col h3 {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .compare-col.before h3 { color: var(--red); }
+    .compare-col.after h3 { color: var(--gold); }
+
+    .compare-col ul {
+      list-style: none;
+      font-size: 0.9rem;
+      line-height: 2;
+      color: var(--cream-muted);
+    }
+
+    .compare-col.after ul { color: var(--cream); }
+
+    /* CTA */
+    .cta-box {
+      text-align: center;
+      padding: 3rem;
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(201,169,98,0.08) 100%);
+      border-radius: 24px;
+      border: 1px solid var(--gold-dim);
+      margin-top: 2rem;
+    }
+
+    .cta-box h2 { margin-bottom: 0.5rem; }
+
+    .location {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--cream-muted);
+    }
+
+    /* Progress bar on state slides */
+    .state-track {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 4px;
+    }
+
+    .state-track span {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .state-track span.done { background: var(--green); }
+    .state-track span.current { background: var(--gold); }
+
+    .deck-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .deck-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.5rem;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .deck-btn-primary {
+      background: var(--gold);
+      color: var(--bg);
+      border: 1px solid var(--gold);
+    }
+
+    .deck-btn-primary:hover {
+      background: #d4b76e;
+      border-color: #d4b76e;
+    }
+
+    .deck-btn-ghost {
+      background: transparent;
+      color: var(--cream);
+      border: 1px solid rgba(245, 240, 232, 0.35);
+    }
+
+    .deck-btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .deck-back {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 20;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream-muted);
+      text-decoration: none;
+    }
+
+    .deck-back:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <a class="deck-back" href="../../case-studies/frankstars.html">&larr; Proposal summary</a>
+  <div class="deck" id="deck">
+
+    <!-- SLIDE 1: Hero -->
+    <section class="slide active" data-slide="0">
+      <div class="slide-inner hero-grid">
+        <div>
+          <div class="hero-badge">Vision · Lewisham · 2026</div>
+          <p class="eyebrow">Frankstars Unisex Hair Express</p>
+          <h1>Your chair.<br /><span class="gold">Your rules.</span><br />Less phone.</h1>
+          <p class="subtitle">
+            A private booking intelligence layer for Frankstars — turning WhatsApp chaos into
+            approve-ready proposals. Customers keep texting you. You stay in control.
+            Nothing is booked until they say yes.
+          </p>
+        </div>
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch">9:41</div>
+              <div class="app-header">
+                <h3>Frankstars Inbox</h3>
+                <p>Tuesday · 4 requests need you</p>
+              </div>
+              <div class="app-body">
+                <div class="inbox-card highlight">
+                  <div class="card-top">
+                    <span class="card-name">Sarah M.</span>
+                    <span class="channel">WhatsApp</span>
+                  </div>
+                  <div class="state-pill state-parsed">Parsed · awaiting you</div>
+                  <div class="raw-msg">"Any chance tuesday after school for me n the boys?"</div>
+                  <div class="parsed"><strong>Proposed:</strong> Tue 2–5pm floating · 2 kids + adult</div>
+                  <div class="actions">
+                    <button class="btn btn-approve">Approve</button>
+                    <button class="btn btn-edit">Edit</button>
+                    <button class="btn btn-reject">Reject</button>
+                  </div>
+                </div>
+                <div class="inbox-card">
+                  <div class="card-top">
+                    <span class="card-name">Marcus T.</span>
+                    <span class="channel sms">SMS</span>
+                  </div>
+                  <div class="state-pill state-awaiting">Awaiting customer</div>
+                  <div class="parsed">Sat 10:30 · proposal sent 2h ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Today vs Tomorrow -->
+    <section class="slide" data-slide="1">
+      <div class="slide-inner">
+        <p class="eyebrow">The opportunity</p>
+        <h2>From scattered messages<br />to a <span class="gold">calm command centre</span></h2>
+        <div class="compare">
+          <div class="compare-col before">
+            <h3>Today</h3>
+            <ul>
+              <li>✗ Messages across WhatsApp, SMS & calls</li>
+              <li>✗ Mental juggling of slots all day</li>
+              <li>✗ Families & latecomers add stress</li>
+              <li>✗ Gaps in the chair you can't see</li>
+              <li>✗ Phone checks between every cut</li>
+            </ul>
+          </div>
+          <div class="compare-col after">
+            <h3>Tomorrow</h3>
+            <ul>
+              <li>✓ One inbox — every channel unified</li>
+              <li>✓ AI reads messages; you decide</li>
+              <li>✓ Floating windows for flexible clients</li>
+              <li>✓ Calendar shows gaps & families clearly</li>
+              <li>✓ Two quick reviews: morning & evening</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Principles -->
+    <section class="slide" data-slide="2">
+      <div class="slide-inner">
+        <p class="eyebrow">Design philosophy</p>
+        <h2>Built for <span class="gold">trust</span>, not takeover</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>You approve everything</h3>
+            <p>No automatic bookings. Every outbound proposal passes through you — approve, edit, or reject in seconds.</p>
+          </div>
+          <div class="feature">
+            <h3>Customers say yes</h3>
+            <p>A slot isn't allocated until the client confirms. A real handshake: your proposal, their acceptance.</p>
+          </div>
+          <div class="feature">
+            <h3>Flexible when quiet</h3>
+            <p>Off-peak floating windows let clients stay loose while you pack the day the way you want.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: State machine overview -->
+    <section class="slide" data-slide="3">
+      <div class="slide-inner">
+        <p class="eyebrow">How it works</p>
+        <h2>The booking <span class="gold">state machine</span></h2>
+        <p class="subtitle">Every request follows a clear path. You're never guessing where things stand.</p>
+        <div class="flow">
+          <div class="flow-node">Message<br />received</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node active-node">AI<br />parsed</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">You<br />approve</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Proposal<br />sent</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node">Customer<br />confirms</div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-node active-node" style="border-color: var(--green); color: var(--green);">Allocated</div>
+        </div>
+        <div class="features" style="margin-top: 1rem;">
+          <div class="feature">
+            <h3>Counter-offers loop back</h3>
+            <p>"Can we do Wednesday?" re-enters your inbox — never silently rebooked.</p>
+          </div>
+          <div class="feature">
+            <h3>Proposals expire</h3>
+            <p>Ghost requests fade after 48h. Your calendar stays honest.</p>
+          </div>
+          <div class="feature">
+            <h3>LLM reads, code schedules</h3>
+            <p>AI understands messy text. Deterministic logic finds the slots.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Screen — Parsed inbox -->
+    <section class="slide" data-slide="4">
+      <div class="slide-inner split">
+        <div>
+          <p class="eyebrow">Screen 01 · Inbox</p>
+          <h2>Messy message in.<br /><span class="gold">Clear proposal out.</span></h2>
+          <p class="subtitle">
+            The system reads Sarah's WhatsApp, spots two kids and a flexible Tuesday afternoon,
+            and suggests a floating window — with her history ("often 10 min late") surfaced quietly.
+          </p>
+          <div class="state-track">
+            <span class="done"></span>
+            <span class="current"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--cream-muted);">Step 1 of 5 · Parsed → awaiting barber</p>
+        </div>
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch">Frankstars</div>
+              <div class="app-header">
+                <h3>Request · Sarah M.</h3>
+                <p>WhatsApp · 14:02 today</p>
+              </div>
+              <div class="app-body">
+                <div class="state-pill state-parsed">State: parsed</div>
+                <div class="raw-msg">"Any chance tuesday after school for me n the boys? Jayden n Marcus"</div>
+                <div class="parsed">
+                  <strong>Understood:</strong> 1 adult + 2 children<br />
+                  <strong>When:</strong> Tue afternoon (flexible)<br />
+                  <strong>Duration:</strong> ~50 mins
+                </div>
+                <div class="tags">
+                  <span class="tag">Returning client</span>
+                  <span class="tag warn">Often late</span>
+                  <span class="tag">Family batch</span>
+                </div>
+                <div class="parsed" style="margin-top: 0.5rem; padding: 0.5rem; background: var(--gold-glow); border-radius: 8px;">
+                  <strong>Suggested:</strong> Tue 14:00–17:00 floating window
+                </div>
+                <div class="actions">
+                  <button class="btn btn-approve">Approve</button>
+                  <button class="btn btn-edit">Edit</button>
+                  <button class="btn btn-reject">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Screen — Approve / proposal sent -->
+    <section class="slide" data-slide="5">
+      <div class="slide-inner split">
+        <div>
+          <p class="eyebrow">Screen 02 · You approve</p>
+          <h2>One tap.<br /><span class="gold">Proposal sent.</span></h2>
+          <p class="subtitle">
+            You tap Approve. The client gets a message in your voice — clear, warm, with a simple YES to confirm.
+            Your work on this thread is done until they reply.
+          </p>
+          <div class="state-track">
+            <span class="done"></span>
+            <span class="done"></span>
+            <span class="current"></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--cream-muted);">Step 2 of 5 · Proposal sent → awaiting customer</p>
+        </div>
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch">WhatsApp</div>
+              <div class="app-header">
+                <h3>Sarah M.</h3>
+                <p>Thread · Frankstars</p>
+              </div>
+              <div class="app-body">
+                <div class="state-pill state-proposal">State: proposal_sent</div>
+                <div class="chat">
+                  <div class="bubble in">
+                    Any chance tuesday after school for me n the boys?
+                    <div class="meta">14:02</div>
+                  </div>
+                  <div class="bubble out">
+                    Hi Sarah — I can fit you and the boys in <strong>Tuesday between 2–5pm</strong>. I'll message nearer the time with a slot. Reply <strong>YES</strong> if that works 👍
+                    <div class="meta">14:04 · Sent by you</div>
+                  </div>
+                </div>
+                <div style="margin-top: auto; padding-top: 1rem; font-size: 0.65rem; color: var(--amber); text-align: center;">
+                  ⏳ Awaiting customer confirmation
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: Screen — Customer confirms -->
+    <section class="slide" data-slide="6">
+      <div class="slide-inner split">
+        <div>
+          <p class="eyebrow">Screen 03 · Customer confirms</p>
+          <h2>They say yes.<br /><span class="gold">Now it's allocated.</span></h2>
+          <p class="subtitle">
+            "Perfect" counts as acceptance. The booking moves to confirmed_floating — a soft window on your calendar,
+            not a rigid promise you can't keep.
+          </p>
+          <div class="state-track">
+            <span class="done"></span>
+            <span class="done"></span>
+            <span class="done"></span>
+            <span class="current"></span>
+            <span></span>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--cream-muted);">Step 3 of 5 · confirmed_floating</p>
+        </div>
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch">WhatsApp</div>
+              <div class="app-header">
+                <h3>Sarah M. · Allocated</h3>
+                <p>Floating window confirmed</p>
+              </div>
+              <div class="app-body">
+                <div class="state-pill state-floating">State: confirmed_floating</div>
+                <div class="chat">
+                  <div class="bubble out">
+                    ...Reply YES if that works 👍
+                    <div class="meta">14:04</div>
+                  </div>
+                  <div class="bubble in">
+                    Perfect 👍
+                    <div class="meta">14:18</div>
+                  </div>
+                  <div class="bubble out" style="opacity: 0.9;">
+                    Lovely — see you Tuesday. I'll ping you with a time on the day.
+                    <div class="meta">14:18 · Auto-ack</div>
+                  </div>
+                </div>
+                <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(92,184,122,0.1); border-radius: 8px; font-size: 0.65rem; color: var(--green); text-align: center;">
+                  ✓ Allocated · Tue 14:00–17:00 window
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Screen — Calendar -->
+    <section class="slide" data-slide="7">
+      <div class="slide-inner split">
+        <div>
+          <p class="eyebrow">Screen 04 · Calendar</p>
+          <h2>See your day<br /><span class="gold">at a glance.</span></h2>
+          <p class="subtitle">
+            Fixed cuts are solid blocks. Floating clients are shaded bands — you pin them when you're ready.
+            Tentative proposals show as dotted lines until the customer confirms.
+          </p>
+          <ul style="list-style: none; margin-top: 1.5rem; font-size: 0.85rem; color: var(--cream-muted); line-height: 2.2;">
+            <li><span style="color: var(--green);">■</span> Fixed & confirmed</li>
+            <li><span style="color: var(--gold);">▨</span> Floating window</li>
+            <li><span style="color: var(--blue);">┄</span> Tentative (awaiting YES)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="phone" style="width: 300px;">
+            <div class="phone-screen">
+              <div class="phone-notch">Tuesday</div>
+              <div class="app-header">
+                <h3>Week view</h3>
+                <p>3 confirmed · 1 floating · 1 pending</p>
+              </div>
+              <div class="app-body">
+                <div class="cal-header">
+                  <span>Tue 17 Jun</span>
+                  <span style="color: var(--gold);">82% utilised</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 32px 1fr; gap: 2px;">
+                  <div class="cal-hour">10:00</div>
+                  <div class="cal-slot"></div>
+                  <div class="cal-hour">10:30</div>
+                  <div class="cal-slot">
+                    <div class="cal-block fixed" style="top: 0; height: 56px;">Marcus · fade</div>
+                  </div>
+                  <div class="cal-hour">11:00</div>
+                  <div class="cal-slot"></div>
+                  <div class="cal-hour">11:30</div>
+                  <div class="cal-slot">
+                    <div class="cal-block fixed" style="top: 0; height: 42px;">Dev · lineup</div>
+                  </div>
+                  <div class="cal-hour">12:00</div>
+                  <div class="cal-slot" style="min-height: 20px;"></div>
+                  <div class="cal-hour">14:00</div>
+                  <div class="cal-slot" style="min-height: 84px;">
+                    <div class="cal-block floating" style="top: 0; height: 100%;">Sarah + 2 boys · floating</div>
+                  </div>
+                  <div class="cal-hour">15:00</div>
+                  <div class="cal-slot" style="min-height: 28px;"></div>
+                  <div class="cal-hour">16:00</div>
+                  <div class="cal-slot">
+                    <div class="cal-block tentative" style="top: 0; height: 42px;">Tentative · Sat?</div>
+                  </div>
+                  <div class="cal-hour">17:00</div>
+                  <div class="cal-slot">
+                    <div class="cal-block fixed" style="top: 0; height: 42px;">Walk-in block</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Three states in action -->
+    <section class="slide" data-slide="8">
+      <div class="slide-inner">
+        <p class="eyebrow">Screen 05 · State machine live</p>
+        <h2>Three requests.<br /><span class="gold">Three states.</span></h2>
+        <div class="mock-row">
+          <div>
+            <div class="phone" style="width: 240px;">
+              <div class="phone-screen" style="min-height: 380px;">
+                <div class="app-header">
+                  <h3>Parsed</h3>
+                  <p>Needs your decision</p>
+                </div>
+                <div class="app-body">
+                  <div class="state-pill state-parsed">parsed</div>
+                  <div class="inbox-card" style="margin: 0;">
+                    <div class="raw-msg" style="font-size: 0.6rem;">"Book me Friday 6?"</div>
+                    <div class="parsed" style="font-size: 0.6rem;"><strong>Proposed:</strong> Fri 18:00 fixed</div>
+                    <div class="actions">
+                      <button class="btn btn-approve">Approve</button>
+                      <button class="btn btn-edit">Edit</button>
+                      <button class="btn btn-reject">Reject</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="mock-label"><strong>Awaiting barber</strong>You approve, edit, or reject</p>
+          </div>
+          <div>
+            <div class="phone" style="width: 240px;">
+              <div class="phone-screen" style="min-height: 380px;">
+                <div class="app-header">
+                  <h3>Proposal sent</h3>
+                  <p>Waiting on client</p>
+                </div>
+                <div class="app-body">
+                  <div class="state-pill state-awaiting">proposal_sent</div>
+                  <div class="chat">
+                    <div class="bubble out" style="font-size: 0.6rem;">
+                      Sat 10:30 for the fade. Reply YES to confirm.
+                    </div>
+                  </div>
+                  <p style="font-size: 0.6rem; color: var(--amber); margin-top: 1rem; text-align: center;">Sent 2h ago · expires in 46h</p>
+                </div>
+              </div>
+            </div>
+            <p class="mock-label"><strong>Awaiting customer</strong>Not allocated yet</p>
+          </div>
+          <div>
+            <div class="phone" style="width: 240px;">
+              <div class="phone-screen" style="min-height: 380px;">
+                <div class="app-header">
+                  <h3>Allocated</h3>
+                  <p>Customer confirmed</p>
+                </div>
+                <div class="app-body">
+                  <div class="state-pill state-confirmed">confirmed_fixed</div>
+                  <div class="parsed" style="font-size: 0.65rem;">
+                    <strong>James K.</strong><br />
+                    Wed 15:30 · 35 min<br />
+                    Skin fade + beard
+                  </div>
+                  <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(92,184,122,0.1); border-radius: 8px; font-size: 0.6rem; color: var(--green);">
+                    ✓ Customer replied YES
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="mock-label"><strong>Allocated</strong>Firm block on calendar</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Counter-offer -->
+    <section class="slide" data-slide="9">
+      <div class="slide-inner split">
+        <div>
+          <p class="eyebrow">Edge case · Counter-offer</p>
+          <h2>"Can we do Wednesday?"<br /><span class="gold">Back to you.</span></h2>
+          <p class="subtitle">
+            Counter-offers never auto-resolve. The loop returns to your inbox as a new parsed request.
+            You stay the negotiator — the system just keeps track.
+          </p>
+        </div>
+        <div>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-notch">Inbox</div>
+              <div class="app-header">
+                <h3>Counter-offer · James K.</h3>
+                <p>Re-parsed from thread</p>
+              </div>
+              <div class="app-body">
+                <div class="state-pill state-parsed">counter_offer → parsed</div>
+                <div class="chat" style="margin-bottom: 0.75rem;">
+                  <div class="bubble out" style="font-size: 0.62rem;">Sat 10:30 — reply YES?</div>
+                  <div class="bubble in" style="font-size: 0.62rem;">Can't do Saturday — Wednesday?</div>
+                </div>
+                <div class="parsed">
+                  <strong>New proposal:</strong> Wed 16:00 fixed<br />
+                  <strong>Previous:</strong> Sat 10:30 (withdrawn)
+                </div>
+                <div class="actions">
+                  <button class="btn btn-approve">Approve Wed</button>
+                  <button class="btn btn-edit">Edit</button>
+                  <button class="btn btn-reject">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: Customer experience -->
+    <section class="slide" data-slide="10">
+      <div class="slide-inner">
+        <p class="eyebrow">For your clients</p>
+        <h2>They keep texting.<br /><span class="gold">Nothing changes for them.</span></h2>
+        <p class="subtitle" style="margin-bottom: 2rem;">
+          No app to download. No account to create. Same WhatsApp, same you — just clearer, faster replies.
+        </p>
+        <div class="features">
+          <div class="feature">
+            <h3>Message as usual</h3>
+            <p>"Yo can I get a trim Saturday?" — that's it. No forms, no portals.</p>
+          </div>
+          <div class="feature">
+            <h3>Clear proposals</h3>
+            <p>They get a specific time or a flexible window. One word to confirm.</p>
+          </div>
+          <div class="feature">
+            <h3>Coming later</h3>
+            <p>Gentle reminders before their slot. If they miss it — next opening today, plus your best effort to still fit them in.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: CTA -->
+    <section class="slide" data-slide="11">
+      <div class="slide-inner">
+        <div class="cta-box">
+          <p class="eyebrow">Frankstars Unisex Hair Express</p>
+          <h2>The chair stays yours.<br />The chaos <span class="gold">doesn't.</span></h2>
+          <p class="subtitle" style="margin: 1rem auto 0;">
+            Start with a simple inbox: messages in, proposals out, confirmations back.
+            Build utilisation without burning out — or burning clients.
+          </p>
+          <p class="location">
+            91 Lee High Road · Lewisham · London<br />
+            <span style="color: var(--gold);">A vision for what's next</span>
+          </p>
+          <div class="deck-actions">
+            <a class="deck-btn deck-btn-primary" href="mailto:hello@3jays.co.uk?subject=Frankstars%20booking%20assistant%20%E2%80%94%20proceed">Proceed with build</a>
+            <a class="deck-btn deck-btn-ghost" href="../../index.html#contact">Discuss with 3jays</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="nav" aria-label="Slide navigation">
+    <button type="button" id="prev" aria-label="Previous slide">←</button>
+    <div class="dots" id="dots"></div>
+    <span class="slide-counter" id="counter">1 / 12</span>
+    <button type="button" id="next" aria-label="Next slide">→</button>
+  </nav>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    let current = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = dotsContainer.querySelectorAll('.dot');
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+      if (e.key === 'ArrowLeft') goTo(current - 1);
+    });
+  </script>
+</body>
+</html>
