@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frankstars booking assistant · Proposal · 3jays</title>
+  <meta name="description" content="Client proposal: intelligent booking inbox for a Lewisham barber — parse messages, approve proposals, confirm with customers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../../index.html" class="logo" aria-label="3jays home">
+        <span class="wordmark">3jays</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="../../index.html#proposals">Proposals</a>
+        <a href="../../index.html#contact">Get in touch</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <header class="case-study-hero">
+      <div class="container">
+        <a href="../../index.html#proposals" class="case-study-back">&larr; All proposals</a>
+        <span class="case-study-type case-study-type--proposal">Client proposal</span>
+        <h1>Frankstars booking assistant</h1>
+        <p class="case-study-lead">
+          An intelligent booking inbox for a solo barber — turning scattered WhatsApp and SMS
+          messages into structured requests, approve-ready proposals, and confirmed appointments.
+          The barber stays in control. Nothing is allocated until the customer accepts.
+        </p>
+        <dl class="case-study-meta">
+          <div>
+            <dt>Client</dt>
+            <dd>Frankstars Unisex Hair Express · Lewisham</dd>
+          </div>
+          <div>
+            <dt>Category</dt>
+            <dd>Agentic platform / booking operations</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>Proposal for review</dd>
+          </div>
+        </dl>
+        <div class="proposal-actions">
+          <a href="deck.html" class="btn btn-primary">View full proposal deck</a>
+          <a href="mailto:hello@3jays.co.uk?subject=Frankstars%20booking%20assistant%20%E2%80%94%20proceed" class="btn btn-ghost">Proceed with build</a>
+        </div>
+      </div>
+    </header>
+
+    <article class="case-study-content">
+      <div class="container">
+        <h2>The problem</h2>
+        <p>
+          A busy solo barber receives booking requests across WhatsApp, SMS, phone, and walk-ins.
+          Messages arrive vague, overlapping, and easy to lose. Family bookings, poor timekeepers,
+          and off-peak flexibility all add mental load — time spent parsing text instead of cutting
+          hair or planning the day.
+        </p>
+        <p>
+          Generic booking apps ask customers to change how they message. That friction does not fit
+          a neighbourhood chair where trust is personal and WhatsApp is already the channel.
+        </p>
+
+        <h2>The proposal</h2>
+        <p>
+          A private booking intelligence layer: messages in, structured requests in a single inbox,
+          slot suggestions the barber can approve, edit, or reject, and clear proposals back to
+          customers. Fixed slots for peak times; floating windows for off-peak flexibility. Every
+          allocation requires a two-party handshake — the barber's proposal, then the customer's
+          explicit acceptance.
+        </p>
+
+        <div class="case-study-gallery">
+          <figure>
+            <img src="../../assets/products/frankstars-deck-hero.png" alt="Frankstars booking assistant proposal — inbox with parsed WhatsApp request awaiting barber approval" loading="lazy">
+            <figcaption>Proposal deck — parsed request with approve, edit, and reject actions in a single inbox.</figcaption>
+          </figure>
+        </div>
+
+        <h2>What you'll review in the deck</h2>
+        <p>
+          The interactive proposal walks through the full experience — twelve slides covering the
+          problem, design principles, booking state machine, inbox workflow, fixed and floating
+          bookings, calendar view, counter-offers, and the customer experience. No app download
+          for clients; the barber keeps authority at every step.
+        </p>
+        <ul>
+          <li><strong>Human in the loop</strong> — no automatic bookings; every outbound proposal passes the barber first</li>
+          <li><strong>Two-party confirmation</strong> — allocated only when the customer accepts a proposal the barber sent</li>
+          <li><strong>Language parsing, deterministic calendar</strong> — AI interprets messy messages; slot logic stays auditable</li>
+          <li><strong>Fixed and floating slots</strong> — pinned times when precision matters; windows for off-peak utilisation</li>
+          <li><strong>Counter-offers return to inbox</strong> — negotiation stays with the barber; the system tracks state</li>
+        </ul>
+
+        <h2>MVP scope</h2>
+        <p>
+          The first release focuses on proving value without over-automation:
+        </p>
+        <ul>
+          <li>Message ingest from WhatsApp, SMS, and quick manual capture</li>
+          <li>Parsed inbox cards with confidence, ambiguities, and raw message always visible</li>
+          <li>Slot suggestions — fixed and floating — with barber approve / edit / reject</li>
+          <li>Outbound proposals and inbound acceptance handling</li>
+          <li>Calendar with fixed blocks and floating window bands</li>
+          <li>Customer notes, service durations, working hours, and proposal expiry</li>
+        </ul>
+
+        <h2>What happens next</h2>
+        <p>
+          Review the full proposal deck, then confirm you want to proceed. We start from the real
+          workflow — inbox and calendar first, intelligent parsing second — and ship only what
+          earns its place in daily use.
+        </p>
+        <div class="proposal-actions proposal-actions--inline">
+          <a href="deck.html" class="btn btn-primary">Open proposal deck</a>
+          <a href="mailto:hello@3jays.co.uk?subject=Frankstars%20booking%20assistant%20%E2%80%94%20proceed" class="btn btn-ghost">Email to proceed</a>
+        </div>
+
+        <h2>What this demonstrates</h2>
+        <div class="case-study-outcomes">
+          <div class="case-study-outcome">
+            <strong>Agentic ops for a solo operator</strong>
+            <span>The same pattern as larger platforms — parse, propose, confirm — applied to a single chair and the channels customers already use.</span>
+          </div>
+          <div class="case-study-outcome">
+            <strong>Trust by design</strong>
+            <span>No allocation without barber action and customer acceptance; raw messages always visible alongside parsed output.</span>
+          </div>
+          <div class="case-study-outcome">
+            <strong>Proposal-first delivery</strong>
+            <span>A shareable deck that lets the client review scope and experience before build begins — the same approach we use for selective engagements.</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section-cta">
+      <div class="container cta-inner">
+        <h2>Ready to move forward?</h2>
+        <p>Review the deck, then email us to confirm the build. We'll align on MVP scope and first delivery milestone.</p>
+        <div class="cta-actions">
+          <a href="mailto:hello@3jays.co.uk?subject=Frankstars%20booking%20assistant%20%E2%80%94%20proceed" class="btn btn-primary">Proceed with build</a>
+          <a href="deck.html" class="btn btn-ghost">View proposal deck</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../../index.html" class="logo" aria-label="3jays home">
+        <span class="wordmark wordmark--footer">3jays</span>
+      </a>
+      <p>&copy; 3jays · London · hello@3jays.co.uk</p>
+    </div>
+  </footer>
+</body>
+</html>

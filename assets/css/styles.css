@@ -549,6 +549,28 @@ a {
   background: var(--bg-surface);
 }
 
+/* Proposals */
+.section-proposals {
+  background: var(--bg-deep);
+  border-top: 1px solid var(--border);
+}
+
+.proposals-grid {
+  max-width: 640px;
+}
+
+.product-tile--proposal:hover {
+  border-color: rgba(212, 168, 83, 0.35);
+}
+
+.product-tile--proposal .product-tile-cta {
+  color: #d4a853;
+}
+
+.product-tile--proposal:hover .product-tile-cta {
+  color: #e8c078;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
