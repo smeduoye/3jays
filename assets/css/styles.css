@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -36,6 +37,7 @@ body {
   color: var(--text-secondary);
   background: var(--bg-deep);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 .container {
@@ -479,6 +481,10 @@ a {
   gap: 1.5rem;
 }
 
+.offerings-grid > * {
+  min-width: 0;
+}
+
 .offering {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -489,7 +495,7 @@ a {
 .offering-featured {
   border-color: var(--border-strong);
   background: var(--bg-card);
-  grid-column: span 2;
+  grid-column: 1 / -1;
 }
 
 .offering-tag {
@@ -575,6 +581,10 @@ a {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.75rem;
+}
+
+.products-grid > * {
+  min-width: 0;
 }
 
 .product-tile {
@@ -1037,7 +1047,6 @@ a {
   .products-grid,
   .case-study-gallery,
   .case-study-outcomes,
-  .offering-featured,
   .expertise-grid,
   .principles,
   .deliver-grid {
@@ -1045,17 +1054,15 @@ a {
   }
 
   .offering-featured {
-    display: block;
-  }
-
-  .offering-featured ul {
-    grid-column: auto;
-    grid-row: auto;
-    margin-top: 1.25rem;
+    grid-column: 1;
   }
 
   .nav {
-    gap: 1.25rem;
+    gap: 1rem;
+  }
+
+  .nav a {
+    font-size: 0.85rem;
   }
 
   .hero h1 {
@@ -1078,15 +1085,46 @@ a {
     margin-top: 0;
     margin-bottom: 1rem;
   }
+
+  .offering {
+    padding: 1.5rem;
+  }
+
+  .offerings-grid,
+  .products-grid {
+    gap: 1.25rem;
+  }
 }
 
 @media (max-width: 600px) {
+  .container {
+    width: min(100% - 1.5rem, var(--max-width));
+  }
+
+  .header-inner {
+    padding: 0.9rem 0;
+  }
+
+  .wordmark {
+    font-size: 1.5rem;
+  }
+
+  .nav {
+    gap: 0;
+  }
+
   .nav a:not(:last-child) {
     display: none;
   }
 
+  .nav a:last-child {
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
   .hero {
     padding-top: 3rem;
+    padding-bottom: 4rem;
   }
 
   .hero-lines {
@@ -1095,7 +1133,66 @@ a {
     opacity: 0.3;
   }
 
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .btn {
+    justify-content: center;
+  }
+
   .section {
     padding: 4rem 0;
+  }
+
+  .section h2 {
+    max-width: none;
+    font-size: clamp(1.65rem, 7vw, 2rem);
+  }
+
+  .section-intro {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+
+  .offering {
+    padding: 1.25rem;
+  }
+
+  .offering h3 {
+    font-size: 1.25rem;
+  }
+
+  .offering-meta {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .stage {
+    padding: 1.35rem 1.15rem;
+  }
+
+  .product-tile-body {
+    padding: 1.25rem 1.35rem 1.5rem;
+  }
+
+  .proposal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .proposal-actions .btn {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-actions .btn {
+    justify-content: center;
   }
 }
