@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Frankstars — The Future of Your Chair</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,6 +23,8 @@
       --blue: #6ba3d4;
       --purple: #a78bfa;
       --slide-padding: clamp(2rem, 5vw, 4rem);
+      --deck-top-chrome: 0px;
+      --deck-bottom-chrome: 0px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,6 +40,7 @@
     /* Deck shell */
     .deck {
       height: 100vh;
+      height: 100dvh;
       position: relative;
     }
 
@@ -47,12 +50,17 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: var(--slide-padding);
+      padding:
+        calc(var(--slide-padding) + var(--deck-top-chrome) + env(safe-area-inset-top, 0px))
+        var(--slide-padding)
+        calc(var(--slide-padding) + var(--deck-bottom-chrome) + env(safe-area-inset-bottom, 0px));
       opacity: 0;
       pointer-events: none;
       transform: translateY(12px);
       transition: opacity 0.6s ease, transform 0.6s ease;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .slide.active {
@@ -100,18 +108,19 @@
     /* Navigation */
     .nav {
       position: fixed;
-      bottom: 2rem;
+      bottom: max(1.25rem, env(safe-area-inset-bottom, 1.25rem));
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       align-items: center;
       gap: 1rem;
       z-index: 100;
-      background: rgba(12, 11, 10, 0.85);
+      background: rgba(12, 11, 10, 0.92);
       backdrop-filter: blur(12px);
       padding: 0.6rem 1.2rem;
       border-radius: 999px;
       border: 1px solid rgba(201, 169, 98, 0.2);
+      max-width: calc(100% - 2rem);
     }
 
     .nav button {
@@ -671,21 +680,117 @@
 
     .deck-back {
       position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 20;
+      top: max(0.75rem, env(safe-area-inset-top, 0.75rem));
+      left: max(0.75rem, env(safe-area-inset-left, 0.75rem));
+      z-index: 100;
       font-size: 0.75rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--cream-muted);
       text-decoration: none;
+      padding: 0.45rem 0.8rem;
+      background: rgba(12, 11, 10, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(201, 169, 98, 0.2);
+      border-radius: 999px;
+      max-width: calc(100% - 1.5rem);
+      white-space: nowrap;
     }
 
+    .deck-back-long { display: inline; }
+    .deck-back-short { display: none; }
+
     .deck-back:hover { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      :root {
+        --slide-padding: 1.15rem;
+        --deck-top-chrome: 3.25rem;
+        --deck-bottom-chrome: 5.25rem;
+      }
+
+      .slide {
+        justify-content: flex-start;
+      }
+
+      .deck-back {
+        font-size: 0.68rem;
+        padding: 0.4rem 0.65rem;
+      }
+
+      .deck-back-long { display: none; }
+      .deck-back-short { display: inline; }
+
+      .nav {
+        gap: 0.65rem;
+        padding: 0.5rem 0.85rem;
+      }
+
+      .nav button {
+        font-size: 1.1rem;
+        padding: 0.35rem 0.45rem;
+      }
+
+      .dots {
+        display: none;
+      }
+
+      .slide-counter {
+        font-size: 0.65rem;
+        min-width: 2.75rem;
+      }
+
+      .hero-grid,
+      .split,
+      .mock-row,
+      .compare {
+        grid-template-columns: 1fr !important;
+      }
+
+      .phone {
+        width: min(260px, 100%);
+      }
+
+      .cta-box {
+        padding: 1.75rem 1.25rem;
+        margin-top: 1rem;
+      }
+
+      .deck-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .deck-btn {
+        width: 100%;
+      }
+
+      .features {
+        margin-top: 1.25rem;
+      }
+
+      .compare,
+      .features {
+        gap: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 9vw, 2.75rem);
+      }
+
+      h2 {
+        font-size: clamp(1.65rem, 7vw, 2.25rem);
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+        margin-top: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <a class="deck-back" href="index.html">&larr; Proposal summary</a>
+  <a class="deck-back" href="index.html"><span class="deck-back-long">&larr; Proposal summary</span><span class="deck-back-short">&larr; Summary</span></a>
   <div class="deck" id="deck">
 
     <!-- SLIDE 1: Hero -->
